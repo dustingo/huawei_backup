@@ -1,0 +1,19 @@
+global:
+  region: cn-east-3
+  ak:
+  sk:
+  projectId:
+  pushgateway:
+
+mongo:
+  instanceId:
+    - 63379ff0e1654845a34bff3252adf2f5in02
+
+rds:
+  instanceId:
+    - c402c7b5b59d4dc4974985c8ba512effin01
+
+redis:
+  format: rdb
+  instanceId:
+    - 2aec819d-5c1e-4991-853e-863d4ac5ed0c
