@@ -35,9 +35,18 @@ func (r RedisBackup) Backup() {
 		req.Body = body
 		requests = append(requests, req)
 	}
+	/* */
+	//redisPusher := pusher.New(viper.GetString("global.pushgateway"), "huawei_redis_backup")
 	for _, request := range requests {
+		//response, err := dcsClient.CopyInstance(request)
+		//if err != nil {
+		//	logger.Logger.Errorw("create redis manual backup error", "error", err.Error())
+		//	return
+		//}
+		//push.Push("redis", request.InstanceId)
+		//logger.Logger.Infow("create redis manual backup success", "InstanceId", request.InstanceId, "BackupId", response.BackupId)
 		wg.Add(1)
-		go func(client *dcs.DcsClient, req *model.CopyInstanceRequest) {
+		func(client *dcs.DcsClient, req *model.CopyInstanceRequest) {
 			defer wg.Done()
 			response, err := client.CopyInstance(req)
 			if err != nil {

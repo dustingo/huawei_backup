@@ -12,39 +12,35 @@ func Push(db, instance string) {
 		logger.Logger.Infow("not push to prometheus pushgateway", "db", db, "instance", instance)
 		return
 	}
-	var p *prometheus.GaugeVec
+	var p prometheus.Gauge
 	var pusher *push.Pusher
 
 	switch db {
 	case "redis":
-		p = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+		p = prometheus.NewGauge(prometheus.GaugeOpts{
 			Name: "redis_backup_execution",
 			Help: "redis backup manual execution",
-		},
-			[]string{"db", "instanceId"},
-		)
-		p.WithLabelValues(db, instance).Set(1)
-		pusher = push.New(viper.GetString("global.pushgateway"), "huawei_redis_backup")
+		})
+		p.Set(1)
+		pusher = push.New(viper.GetString("global.pushgateway"), "huawei_redis_backup").Collector(p).Grouping("instanceId", instance).Grouping("db", db)
 	case "mongo":
-		p = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+		p = prometheus.NewGauge(prometheus.GaugeOpts{
 			Name: "mongo_backup_execution",
 			Help: "mongo backup manual execution",
-		},
-			[]string{"db", "instanceId"},
-		)
-		p.WithLabelValues(db, instance).Set(1)
-		pusher = push.New(viper.GetString("global.pushgateway"), "huawei_mongo_backup")
+		})
+		//p.WithLabelValues(db, instance).Set(1)
+		p.Set(1)
+		pusher = push.New(viper.GetString("global.pushgateway"), "huawei_mongo_backup").Collector(p).Grouping("instanceId", instance).Grouping("db", db)
 	case "rds":
-		p = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+		p = prometheus.NewGauge(prometheus.GaugeOpts{
 			Name: "rds_backup_execution",
 			Help: "rds backup manual execution",
-		},
-			[]string{"db", "instanceId"},
-		)
-		p.WithLabelValues(db, instance).Set(1)
-		pusher = push.New(viper.GetString("global.pushgateway"), "huawei_rds_backup")
+		})
+		//p.WithLabelValues(db, instance).Set(1)
+		p.Set(1)
+		pusher = push.New(viper.GetString("global.pushgateway"), "huawei_rds_backup").Collector(p).Grouping("instanceId", instance).Grouping("db", db)
 	}
-	pusher.Collector(p)
+	//pusher.Collector(p)
 	if err := pusher.Push(); err != nil {
 		logger.Logger.Errorw("push to prometheus pushgateway error", "error", err.Error())
 		return

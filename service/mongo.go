@@ -29,6 +29,7 @@ func (m MongoBackup) Backup() {
 		}
 		requests = append(requests, req)
 	}
+	//mongoPusher := pusher.New(viper.GetString("global.pushgateway"), "huawei_mongo_backup")
 	for _, request := range requests {
 		wg.Add(1)
 		go func(client *dds.DdsClient, req *model.CreateManualBackupRequest) {

@@ -27,6 +27,8 @@ func (r RdsBackup) Backup() {
 		req.Body = body
 		requests = append(requests, req)
 	}
+
+	//	rdsPusher := pusher.New(viper.GetString("global.pushgateway"), "huawei_rds_backup")
 	for _, request := range requests {
 		wg.Add(1)
 		go func(client *rdsv3.RdsClient, req *model.CreateManualBackupRequest) {
