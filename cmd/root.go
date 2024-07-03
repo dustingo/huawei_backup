@@ -42,7 +42,7 @@ func Execute() {
 }
 func init() {
 	rootCmd.PersistentFlags().BoolP("push", "p", false, "push to prometheus pushgateway")
-	rootCmd.PersistentFlags().String("config", "", "config file")
+	rootCmd.PersistentFlags().StringP("config", "c", "", "config file")
 	if err := viper.BindPFlag("config", rootCmd.PersistentFlags().Lookup("config")); err != nil {
 		fmt.Println(err)
 		os.Exit(-1)

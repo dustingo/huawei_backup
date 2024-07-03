@@ -14,7 +14,6 @@ import (
 var mongoCmd = &cobra.Command{
 	Use:   "mongo",
 	Short: "do mongodb bakcup",
-
 	Run: func(cmd *cobra.Command, args []string) {
 		var db service.Database
 		db = service.MongoBackup{
@@ -23,7 +22,18 @@ var mongoCmd = &cobra.Command{
 		db.Backup()
 	},
 }
+var deleteMongoCmd = &cobra.Command{
+	Use:   "mongo",
+	Short: "delete mongodb backup",
+	Run: func(cmd *cobra.Command, args []string) {
+		m := service.MongoDeleteBackup{
+			Name: "mongo delete",
+		}
+		m.Delete()
+	},
+}
 
 func init() {
 	backupCmd.AddCommand(mongoCmd)
+	deleteCmd.AddCommand(deleteMongoCmd)
 }

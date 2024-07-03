@@ -24,6 +24,27 @@ var rdsCmd = &cobra.Command{
 	},
 }
 
+// verifyRdsCmd 执行校验rds备份状态
+var verifyRdsCmd = &cobra.Command{
+	Use:   "rds",
+	Short: "verify rds backup status",
+	Run: func(cmd *cobra.Command, args []string) {
+
+	},
+}
+
+// 删除数据库备份
+var deleteRdsBackupCmd = &cobra.Command{
+	Use:   "rds",
+	Short: "delete rds backup",
+	Run: func(cmd *cobra.Command, args []string) {
+		b := service.RdsDeleteBackup{Name: "rds delete"}
+		b.Delete()
+	},
+}
+
 func init() {
 	backupCmd.AddCommand(rdsCmd)
+	verifyCmd.AddCommand(verifyRdsCmd)
+	deleteCmd.AddCommand(deleteRdsBackupCmd)
 }

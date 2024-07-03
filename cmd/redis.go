@@ -22,7 +22,16 @@ var redisCmd = &cobra.Command{
 		db.Backup()
 	},
 }
+var deleteRedisBackupCmd = &cobra.Command{
+	Use:   "redis",
+	Short: "delete redis backup",
+	Run: func(cmd *cobra.Command, args []string) {
+		r := service.RedisDeleteBackup{Name: "redis delete"}
+		r.Delete()
+	},
+}
 
 func init() {
 	backupCmd.AddCommand(redisCmd)
+	deleteCmd.AddCommand(deleteRedisBackupCmd)
 }
